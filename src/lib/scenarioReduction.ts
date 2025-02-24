@@ -11,10 +11,10 @@ import assert from "assert";
  * - Dupacová, Jitka, Nicole Gröwe-Kuska and Werner Römisch. “Scenario reduction in stochastic programming.”
  * Mathematical Programming 95 (2003): 493-511.
  *
- * @param targetN  選択したい点の数 (<= n)
- * @param metric 距離関数 d(ω_i, ω_j) を返す関数
- * @param probMasses      p_k を格納した長さ n の重み（確率質量）配列
- * @returns        選択されたインデックス（長さ targetN）
+ * @param targetN Number of scenarios to select
+ * @param metric function to calculate the distance between two elements
+ * @param probMasses Probability masses of each element
+ * @returns Selected indices ordered by the selection order
  *
  */
 export const forwardSelection = (
@@ -23,7 +23,7 @@ export const forwardSelection = (
   probMasses: number[]
 ): number[] => {
   const n = probMasses.length;
-  // 距離行列をコピーして c_{k,u} を逐次更新可能にしておく
+  // Copy the distance matrix and make c_{k,u} updatable sequentially
   const tmpDistMatrix = new Array(n);
   for (let i = 0; i < n; i++) {
     tmpDistMatrix[i] = new Array(n);
@@ -92,27 +92,29 @@ export const forwardSelection = (
 };
 
 export const redistribute = (
-  elements: number[],
+  selectedElements: number[],
   metric: (i: number, j: number) => number,
-  probMasses: number[]
+  originalProbMasses: number[]
 ): number[] => {
-  const n = probMasses.length;
-  const targetN = elements.length;
-  const newProbMasses = elements.map((elem) => probMasses[elem]);
-  const chosen = new Set(elements);
+  const n = originalProbMasses.length;
+  const targetN = selectedElements.length;
+  const newProbMasses = selectedElements.map(
+    (elem) => originalProbMasses[elem]
+  );
+  const selectedSet = new Set(selectedElements);
 
   for (let elm = 0; elm < n; elm++) {
-    if (!chosen.has(elm)) {
+    if (!selectedSet.has(elm)) {
       let minDist = Number.POSITIVE_INFINITY;
       let closestIndex = -1;
       for (let j = 0; j < targetN; j++) {
-        const dist = metric(elm, elements[j]);
+        const dist = metric(elm, selectedElements[j]);
         if (dist < minDist) {
           minDist = dist;
           closestIndex = j;
         }
       }
-      newProbMasses[closestIndex] += probMasses[elm];
+      newProbMasses[closestIndex] += originalProbMasses[elm];
     }
   }
 

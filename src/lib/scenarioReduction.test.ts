@@ -1,9 +1,8 @@
-import { forwardSelection, redistribute } from "./approxDistribution";
+import { forwardSelection, redistribute } from "./scenarioReduction";
 import seedrandom from "seedrandom";
 
 describe("forwardSelection", () => {
-  it("should select correct points for simple manual case", () => {
-    // 1次元の点列 [0,1,2,3] から2点を選ぶ
+  it("should select correct points for simple 1D case", () => {
     const metric = (i: number, j: number) => Math.abs(i - j);
     const probMasses = [0.25, 0.25, 0.25, 0.25];
 
@@ -11,11 +10,29 @@ describe("forwardSelection", () => {
     expect(result).toEqual([1, 2]);
   });
 
+  it("should select correct points for simple 2D case", () => {
+    const points = [
+      [1, 1],
+      [1, -1],
+      [-1, 1],
+      [-1, -1],
+      [0, 0],
+    ];
+    const metric = (i: number, j: number) => {
+      const dx = points[i][0] - points[j][0];
+      const dy = points[i][1] - points[j][1];
+      return Math.sqrt(dx * dx + dy * dy);
+    };
+    const probMasses = [0.2, 0.2, 0.2, 0.2, 0.2];
+
+    const result = forwardSelection(1, metric, probMasses);
+    expect(result).toEqual([4]);
+  });
+
   it("should work with random inputs", () => {
     const rng = seedrandom("test-seed-123");
     const n = 20;
     const targetN = 5;
-    // ランダムな2次元点列を生成
     const points = Array.from({ length: n }, () => ({
       x: rng() * 100,
       y: rng() * 100,
@@ -34,7 +51,7 @@ describe("forwardSelection", () => {
     const result = forwardSelection(targetN, metric, probMasses);
 
     expect(result.length).toBe(targetN);
-    expect(new Set(result).size).toBe(targetN); // 重複がないことを確認
+    expect(new Set(result).size).toBe(targetN);
     expect(Math.max(...result)).toBeLessThan(n);
   });
 });
@@ -48,7 +65,7 @@ describe("redistribute", () => {
     const result = redistribute(selected, metric, probMasses);
 
     expect(result.length).toBe(2);
-    expect(Math.abs(result[0] + result[1] - 1.0) < 1e-10); // 確率の合計が1
+    expect(Math.abs(result[0] + result[1] - 1.0) < 1e-10);
     expect(result[0]).toBeCloseTo(0.6); // 0.3 + 0.2 + 0.1
     expect(result[1]).toBeCloseTo(0.4);
   });

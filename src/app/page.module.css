@@ -11,8 +11,8 @@
   align-items: center;
   justify-items: center;
   min-height: 100svh;
-  padding: 80px;
-  gap: 64px;
+  padding: 0px;
+  gap: 0px;
   font-family: var(--font-geist-sans);
 }
 
@@ -68,10 +68,7 @@
   padding: 0 20px;
   border: none;
   border: 1px solid transparent;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -106,6 +103,117 @@ a.secondary {
 
 .footer img {
   flex-shrink: 0;
+}
+
+.seedInput {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 8px;
+}
+
+.seedField {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.generateButton,
+.playButton {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.generateButton:hover,
+.playButton:hover {
+  background-color: var(--button-secondary-hover);
+}
+
+.distributionSelect {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.distributionField {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.sliderContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.slider {
+  flex: 1;
+  height: 4px;
+  -webkit-appearance: none;
+  background: #ddd;
+  border-radius: 2px;
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #666;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #666;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.stepCount {
+  font-size: 0.9rem;
+  color: #666;
+  min-width: 60px;
+}
+
+.controlsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.topControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.playControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-left: 8px;
 }
 
 /* Enable hover only on non-touch devices */
@@ -164,5 +272,21 @@ a.secondary {
 @media (prefers-color-scheme: dark) {
   .logo {
     filter: invert();
+  }
+
+  .slider {
+    background: #444;
+  }
+
+  .slider::-webkit-slider-thumb {
+    background: #aaa;
+  }
+
+  .slider::-moz-range-thumb {
+    background: #aaa;
+  }
+
+  .stepCount {
+    color: #aaa;
   }
 }
