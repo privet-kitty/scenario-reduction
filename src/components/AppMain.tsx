@@ -18,30 +18,25 @@ export enum DistributionType {
 }
 
 const UNIT_BOUNDS = { xMin: 0, xMax: 1, yMin: 0, yMax: 1 };
-const N_POINTS = 100;
 
 const generateSampleDistribution = (
   type: DistributionType,
-  seed: string
+  seed: string,
+  n: number
 ): DiscreteDistribution => {
   switch (type) {
     case DistributionType.UNIFORM:
-      return generateUniformDistribution(seed, N_POINTS, UNIT_BOUNDS);
+      return generateUniformDistribution(seed, n, UNIT_BOUNDS);
     case DistributionType.GAUSSIAN:
       return generateGaussianDistribution(
         seed,
-        N_POINTS,
+        n,
         { x: 0.5, y: 0.5 },
         0.3,
         UNIT_BOUNDS
       );
     case DistributionType.CIRCULAR:
-      return generateCircularDistribution(
-        seed,
-        N_POINTS,
-        { x: 0.5, y: 0.5 },
-        0.5
-      );
+      return generateCircularDistribution(seed, n, { x: 0.5, y: 0.5 }, 0.5);
   }
 };
 
@@ -54,6 +49,7 @@ const calculateMetric = (points: DiscreteDistribution["points"]) => {
 };
 
 export const AppMain = () => {
+  const [numberOfPoints, setNumberOfPoints] = useState(50);
   const [seed, setSeed] = useState("42");
   const [distributionType, setDistributionType] = useState<DistributionType>(
     DistributionType.UNIFORM
@@ -67,8 +63,11 @@ export const AppMain = () => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const handleGenerateClick = useCallback(() => {
-    const dist = generateSampleDistribution(distributionType, seed);
-    console.log(dist);
+    const dist = generateSampleDistribution(
+      distributionType,
+      seed,
+      numberOfPoints
+    );
     setOriginalDist(dist);
 
     const selected = forwardSelection(
@@ -80,7 +79,7 @@ export const AppMain = () => {
     setCurrentStep(0);
     setIsPlaying(false);
     setCurrentApproximation(EMPTY_DISTRIBUTION);
-  }, [seed, distributionType]);
+  }, [seed, distributionType, numberOfPoints]);
 
   const togglePlay = () => {
     if (currentStep >= selectedPoints.length) {
@@ -139,10 +138,22 @@ export const AppMain = () => {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <h1>Scenario Reduction</h1>
+        <h1>Scenario Reduction Visualizer</h1>
 
         <div className={styles.controlsContainer}>
           <div className={styles.topControls}>
+            <div className={styles.pointsInput}>
+              <label htmlFor="numberOfPoints">N:</label>
+              <input
+                type="number"
+                id="numberOfPoints"
+                value={numberOfPoints}
+                onChange={(e) => setNumberOfPoints(Number(e.target.value))}
+                min="10"
+                max="1000"
+                className={styles.numberField}
+              />
+            </div>
             <div className={styles.seedInput}>
               <label htmlFor="seed">Seed:</label>
               <input
@@ -154,7 +165,7 @@ export const AppMain = () => {
               />
             </div>
             <div className={styles.distributionSelect}>
-              <label htmlFor="distribution-type">Distribution:</label>
+              <label htmlFor="distribution-type">Base Distribution:</label>
               <select
                 id="distribution-type"
                 value={distributionType}
@@ -174,7 +185,7 @@ export const AppMain = () => {
               onClick={handleGenerateClick}
               className={styles.generateButton}
             >
-              Generate New Distribution
+              Generate
             </button>
           </div>
 

@@ -11,6 +11,7 @@ import {
   CartesianGrid,
   Tooltip,
   ZAxis,
+  TooltipProps,
 } from "recharts";
 
 type VisualizerProps = {
@@ -28,6 +29,27 @@ const MIN_MAX_DATA_POINTS = [
   { x: 2, y: 2, z: 0 },
   { x: 100, y: 100, z: 1 },
 ];
+
+// カスタムツールチップコンポーネント
+const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+  if (active && payload && payload.length) {
+    return (
+      <div
+        style={{
+          backgroundColor: "white",
+          padding: "5px 10px",
+          border: "1px solid #ccc",
+        }}
+      >
+        <p>{`x: ${payload[0].value?.toFixed(5)}`}</p>
+        <p>{`y: ${payload[1].value?.toFixed(5)}`}</p>
+        <p>{`mass: ${payload[2].value?.toFixed(5)}`}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
 
 export const ScatterDistributions: React.FC<VisualizerProps> = ({
   distribution1,
@@ -61,7 +83,6 @@ export const ScatterDistributions: React.FC<VisualizerProps> = ({
         }))
       )
     );
-    console.log(distribution2?.weights);
   }, [distribution1, distribution2]);
 
   if (!mounted) return null;
@@ -95,7 +116,7 @@ export const ScatterDistributions: React.FC<VisualizerProps> = ({
         range={[100, 100 * distribution1.points.length]}
         zAxisId={2}
       />
-      <Tooltip />
+      <Tooltip content={<CustomTooltip />} />
 
       <Scatter
         name="Distribution 1"

@@ -109,7 +109,6 @@ a.secondary {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-right: 8px;
 }
 
 .seedField {
@@ -117,6 +116,19 @@ a.secondary {
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100px;
+}
+
+.pointsInput {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.numberField {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 60px;
 }
 
 .controls {
@@ -166,6 +178,7 @@ a.secondary {
   flex: 1;
   height: 4px;
   -webkit-appearance: none;
+  appearance: none;
   background: #ddd;
   border-radius: 2px;
   outline: none;
