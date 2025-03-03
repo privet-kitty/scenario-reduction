@@ -1,5 +1,8 @@
 {
   "editor.formatOnSave": true,
+  "code-runner.executorMap": {
+    "typescript": "tsx"
+  },
   "terminal.integrated.env.osx": {
     "PATH": "${workspaceFolder}/node_modules/.bin:${env:PATH}"
   },
