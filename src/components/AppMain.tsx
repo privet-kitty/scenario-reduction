@@ -18,6 +18,7 @@ export enum DistributionType {
 }
 
 const UNIT_BOUNDS = { xMin: 0, xMax: 1, yMin: 0, yMax: 1 };
+const N_POINTS = 100;
 
 const generateSampleDistribution = (
   type: DistributionType,
@@ -25,17 +26,22 @@ const generateSampleDistribution = (
 ): DiscreteDistribution => {
   switch (type) {
     case DistributionType.UNIFORM:
-      return generateUniformDistribution(seed, 100, UNIT_BOUNDS);
+      return generateUniformDistribution(seed, N_POINTS, UNIT_BOUNDS);
     case DistributionType.GAUSSIAN:
       return generateGaussianDistribution(
         seed,
-        100,
+        N_POINTS,
         { x: 0.5, y: 0.5 },
         0.3,
         UNIT_BOUNDS
       );
     case DistributionType.CIRCULAR:
-      return generateCircularDistribution(seed, 100, { x: 0.5, y: 0.5 }, 0.5);
+      return generateCircularDistribution(
+        seed,
+        N_POINTS,
+        { x: 0.5, y: 0.5 },
+        0.5
+      );
   }
 };
 
@@ -62,6 +68,7 @@ export const AppMain = () => {
 
   const handleGenerateClick = useCallback(() => {
     const dist = generateSampleDistribution(distributionType, seed);
+    console.log(dist);
     setOriginalDist(dist);
 
     const selected = forwardSelection(

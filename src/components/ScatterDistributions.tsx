@@ -85,8 +85,16 @@ export const ScatterDistributions: React.FC<VisualizerProps> = ({
         domain={[bounds.yMin, bounds.yMax]}
         allowDataOverflow={true}
       />
-      <ZAxis dataKey="z" range={[100, 1000]} zAxisId={1} scale="sqrt" />
-      <ZAxis dataKey="z" range={[100, 1000]} zAxisId={2} scale="sqrt" />
+      <ZAxis
+        dataKey="z"
+        range={[100, 100 * distribution1.points.length]}
+        zAxisId={1}
+      />
+      <ZAxis
+        dataKey="z"
+        range={[100, 100 * distribution1.points.length]}
+        zAxisId={2}
+      />
       <Tooltip />
 
       <Scatter

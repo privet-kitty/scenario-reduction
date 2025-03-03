@@ -88,7 +88,7 @@ export const forwardSelection = (
     assert(notSelected.delete(nextElement));
   }
 
-  return selected.sort((a, b) => a - b);
+  return selected;
 };
 
 export const redistribute = (
