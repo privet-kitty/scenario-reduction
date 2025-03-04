@@ -138,7 +138,7 @@ export const AppMain = () => {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <h1>Scenario Reduction Visualizer</h1>
+        <h1>Scenario Reduction</h1>
 
         <div className={styles.controlsContainer}>
           <div className={styles.topControls}>
