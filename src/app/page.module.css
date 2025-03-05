@@ -229,6 +229,13 @@ a.secondary {
   padding-left: 8px;
 }
 
+.currentVisualization {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {
