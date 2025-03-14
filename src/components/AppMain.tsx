@@ -136,92 +136,88 @@ export const AppMain = () => {
   }, [isPlaying, selectedPoints.length, originalDist.points.length]);
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <h1>Scenario Reduction</h1>
-
-        <div className={styles.controlsContainer}>
-          <div className={styles.topControls}>
-            <div className={styles.pointsInput}>
-              <label htmlFor="numberOfPoints">N:</label>
-              <input
-                type="number"
-                id="numberOfPoints"
-                value={numberOfPoints}
-                onChange={(e) => setNumberOfPoints(Number(e.target.value))}
-                min="10"
-                max="1000"
-                className={styles.numberField}
-              />
-            </div>
-            <div className={styles.seedInput}>
-              <label htmlFor="seed">Seed:</label>
-              <input
-                type="text"
-                id="seed"
-                value={seed}
-                onChange={(e) => setSeed(e.target.value)}
-                className={styles.seedField}
-              />
-            </div>
-            <div className={styles.distributionSelect}>
-              <label htmlFor="distribution-type">Base Distribution:</label>
-              <select
-                id="distribution-type"
-                value={distributionType}
-                onChange={(e) =>
-                  setDistributionType(e.target.value as DistributionType)
-                }
-                className={styles.distributionField}
-              >
-                <option value={DistributionType.UNIFORM}>Uniform</option>
-                <option value={DistributionType.GAUSSIAN}>Gaussian</option>
-                <option value={DistributionType.CIRCULAR}>
-                  Circular Uniform
-                </option>
-              </select>
-            </div>
-            <button
-              onClick={handleGenerateClick}
-              className={styles.generateButton}
-            >
-              Generate
-            </button>
+    <>
+      <div className={styles.controlsContainer}>
+        <div className={styles.topControls}>
+          <div className={styles.pointsInput}>
+            <label htmlFor="numberOfPoints">N:</label>
+            <input
+              type="number"
+              id="numberOfPoints"
+              value={numberOfPoints}
+              onChange={(e) => setNumberOfPoints(Number(e.target.value))}
+              min="10"
+              max="1000"
+              className={styles.numberField}
+            />
           </div>
+          <div className={styles.seedInput}>
+            <label htmlFor="seed">Seed:</label>
+            <input
+              type="text"
+              id="seed"
+              value={seed}
+              onChange={(e) => setSeed(e.target.value)}
+              className={styles.seedField}
+            />
+          </div>
+          <div className={styles.distributionSelect}>
+            <label htmlFor="distribution-type">Base Distribution:</label>
+            <select
+              id="distribution-type"
+              value={distributionType}
+              onChange={(e) =>
+                setDistributionType(e.target.value as DistributionType)
+              }
+              className={styles.distributionField}
+            >
+              <option value={DistributionType.UNIFORM}>Uniform</option>
+              <option value={DistributionType.GAUSSIAN}>Gaussian</option>
+              <option value={DistributionType.CIRCULAR}>
+                Circular Uniform
+              </option>
+            </select>
+          </div>
+          <button
+            onClick={handleGenerateClick}
+            className={styles.generateButton}
+          >
+            Generate
+          </button>
+        </div>
 
-          {originalDist.points.length > 0 && (
-            <div className={styles.playControls}>
-              <button onClick={togglePlay} className={styles.playButton}>
-                {isPlaying ? "Pause" : "Play"}
-              </button>
-              <div className={styles.sliderContainer}>
-                <input
-                  type="range"
-                  min="0"
-                  max={selectedPoints.length}
-                  value={currentStep}
-                  onChange={handleSliderChange}
-                  className={styles.slider}
-                />
-                <span className={styles.stepCount}>
-                  {currentStep}/{selectedPoints.length}
-                </span>
-              </div>
+        {originalDist.points.length > 0 && (
+          <div className={styles.playControls}>
+            <button onClick={togglePlay} className={styles.playButton}>
+              {isPlaying ? "Pause" : "Play"}
+            </button>
+            <div className={styles.sliderContainer}>
+              <input
+                type="range"
+                min="0"
+                max={selectedPoints.length}
+                value={currentStep}
+                onChange={handleSliderChange}
+                className={styles.slider}
+              />
+              <span className={styles.stepCount}>
+                {currentStep}/{selectedPoints.length}
+              </span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+      </div>
 
-        <div className={styles.currentVisualization}>
-          <h3>Using {currentStep} point(s)</h3>
-          <ScatterDistributions
-            distribution1={originalDist}
-            distribution2={currentApproximation}
-            bounds={{ xMin: 0, xMax: 1, yMin: 0, yMax: 1 }}
-            width={600}
-            height={600}
-          />
-        </div>
-      </main>
-    </div>
+      <div className={styles.currentVisualization}>
+        <h3>Using {currentStep} point(s)</h3>
+        <ScatterDistributions
+          distribution1={originalDist}
+          distribution2={currentApproximation}
+          bounds={{ xMin: 0, xMax: 1, yMin: 0, yMax: 1 }}
+          width={600}
+          height={600}
+        />
+      </div>
+    </>
   );
 };
